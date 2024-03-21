@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
+import userRouter from "./routes/user.routes.js";
+
 const app = express();
 
 mongoose
@@ -13,3 +15,5 @@ mongoose
 app.listen(3000, () => {
   console.log(`Server Running on: http://localhost:3000`);
 });
+
+app.use("/api/user", userRouter);
