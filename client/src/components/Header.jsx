@@ -17,9 +17,9 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search . . ."
-            className="bg-transparent focus:outline-none cursor-pointer w-28 sm:w-64"
+            className="bg-transparent focus:outline-none w-28 sm:w-64"
           />
-          <FaSearch className="text-slate-500" />
+          <FaSearch className="text-slate-500 cursor-pointer " />
         </form>
 
         {/* Nav Items */}
