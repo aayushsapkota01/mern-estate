@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
-    <header>
+    <header className="bg-slate-100">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         {/* Home Page TribalEstate */}
         <Link to="/">
@@ -13,7 +13,7 @@ const Header = () => {
         </Link>
 
         {/* Search Input */}
-        <form className="bg-slate-100 p-3 rounded-lg flex items-center">
+        <form className="bg-slate-100 p-3 rounded-lg flex items-center border">
           <input
             type="text"
             placeholder="Search . . ."
