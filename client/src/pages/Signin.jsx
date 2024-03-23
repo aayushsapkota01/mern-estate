@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 const Signin = () => {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-
+  const { error, loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Remove error message after 1 seconds
+    const timeout = setTimeout(() => {
+      dispatch(signInFailure(null));
+    }, 1000);
+
+    // Cleanup function to clear timeout on component unmount or re-render
+    return () => clearTimeout(timeout);
+  }, [error, dispatch]);
 
   // Handle form input change
   const handleChange = (e) => {
@@ -17,34 +31,12 @@ const Signin = () => {
     });
   };
 
-  // Validate email format
-  const validateEmail = (email) => {
-    // Regular expression for email validation
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Check if any field is empty
-    if (!formData.email || !formData.password) {
-      setError("Invalid: Check your credentials!");
-      setTimeout(() => setError(null), 2000);
-      return;
-    }
-
-    // Validate email format
-    if (!validateEmail(formData.email)) {
-      setError("Invalid email format!");
-      setTimeout(() => setError(null), 2000);
-      return;
-    }
-
     // Proceed with form submission
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -54,37 +46,27 @@ const Signin = () => {
       });
       const data = await response.json();
       if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
-        setSuccessMessage("");
-        setTimeout(() => setError(null), 3000);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false);
-      setSuccessMessage("User Sign In Successfully!");
-      setError(null);
-      setTimeout(() => setSuccessMessage(""), 3000);
+      dispatch(signInSuccess(data.message));
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
-      setSuccessMessage("");
-      setTimeout(() => setError(null), 3000);
+      dispatch(signInFailure("An error occurred while signing in."));
     }
   };
 
   return (
     <div className="container flex items-center justify-center">
       {/* Image Container */}
-      <div className="hidden md:block w-1/2 m">
+      <div className="hidden md:block w-1/2">
         <img
-          src="../../public/sample2.jpg"
+          src="../../public/sample2.avif"
           alt="sample"
           className="w-full h-full object-cover max-h-[750px]"
         />
       </div>
       {/* Sign Up Form Container */}
-      <div></div>
       <div className="p-4 max-w-lg ms-auto w-full md:w-1/2 items-center">
         <h1 className="text-4xl text-center font-semibold my-7 text-[#000f72]">
           Sign In
@@ -117,11 +99,8 @@ const Signin = () => {
             <span className="text-blue-700 underline">Sign up</span>
           </Link>
         </div>
-        {/* Error and success messages */}
+        {/* Error message */}
         {error && <p className="text-red-500 text-center m-3">{error}</p>}
-        {successMessage && (
-          <p className="text-green-500 text-center m-3">{successMessage}</p>
-        )}
       </div>
     </div>
   );
