@@ -16,7 +16,7 @@ const Signin = () => {
   useEffect(() => {
     // Remove error message after 1 seconds
     const timeout = setTimeout(() => {
-      dispatch(signInFailure(null));
+      dispatch(signInFailure());
     }, 1000);
 
     // Cleanup function to clear timeout on component unmount or re-render
