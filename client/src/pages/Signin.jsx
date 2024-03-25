@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({});
@@ -61,7 +62,7 @@ const Signin = () => {
       {/* Image Container */}
       <div className="hidden md:block w-1/2">
         <img
-          src="../../public/sample2.avif"
+          src="/sample2.avif"
           alt="sample"
           className="w-full h-full object-cover max-h-[750px]"
         />
@@ -92,6 +93,7 @@ const Signin = () => {
           >
             {loading ? "Loading..." : "Sign In"}
           </button>
+          <OAuth />
         </form>
         <div className="flex gap-2 mt-5">
           <p>Dont have an account?</p>

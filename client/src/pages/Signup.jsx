@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 const Signup = () => {
   const [formData, setFormData] = useState({});
@@ -75,7 +76,7 @@ const Signup = () => {
       {/* Image Container */}
       <div className="hidden md:block w-1/2 m">
         <img
-          src="../../public/sample.jpg"
+          src="/sample.jpg"
           alt="sample"
           className="w-full h-full object-cover max-h-[750px]"
         />
@@ -113,6 +114,7 @@ const Signup = () => {
           >
             {loading ? "Loading..." : "Sign Up"}
           </button>
+          <OAuth />
         </form>
         <div className="flex gap-2 mt-5">
           <p>Have an account?</p>
