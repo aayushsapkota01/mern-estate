@@ -40,7 +40,7 @@ const Header = () => {
             </li>
           </Link>
           {/* Sign In */}
-          <Link to="/sign-in">
+          <Link to="/profile">
             {currentUser ? (
               <img
                 className="rounded-full h-8 w-8 object-cover cursor-pointer"
